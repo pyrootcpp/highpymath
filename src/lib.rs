@@ -110,6 +110,55 @@ fn linear_base_a(b: PyFloat, c: PyFloat) -> PyResult<PyFloat> {
     Ok(c - b)
 }
 
+#[pyfunction]
+fn sin(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a.sin())
+}
+
+#[pyfunction]
+fn cos(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a.cos())
+}
+
+#[pyfunction]
+fn tan(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a.tan())
+}
+
+#[pyfunction]
+fn asin(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a.asin())
+}
+
+#[pyfunction]
+fn acos(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a.acos())
+}
+
+#[pyfunction]
+fn atan(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a.atan())
+}
+
+#[pyfunction]
+fn arctan(x: PyFloat) -> PyResult<PyFloat> {
+    /// Berechne den arcus tangens Wert mit der Leibniz-Reihe
+    let mut result: PyFloat = 0.0;
+    let mut term: PyFloat = x;  // Startterm x^1 / 1
+    let mut i: PyInt = 1;
+
+    while term.abs() > 1e-15 {
+        if i % 2 == 1 {
+            result += term;  // Addiere ungerade Terme
+        } else {
+            result -= term;  // Subtrahiere gerade Terme
+        }
+        i += 1;
+        term = term * x * x / ((2 * i - 1) as PyFloat) * ((2 * i - 2) as PyFloat);  // Update term zu x^(2i+1) / (2i+1)
+    }
+    Ok(result)
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -125,6 +174,13 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(linear_base_c, m)?)?;
     m.add_function(wrap_pyfunction!(linear_base_b, m)?)?;
     m.add_function(wrap_pyfunction!(linear_base_a, m)?)?;
+    m.add_function(wrap_pyfunction!(sin, m)?)?;
+    m.add_function(wrap_pyfunction!(cos, m)?)?;
+    m.add_function(wrap_pyfunction!(tan, m)?)?;
+    m.add_function(wrap_pyfunction!(asin, m)?)?;
+    m.add_function(wrap_pyfunction!(acos, m)?)?;
+    m.add_function(wrap_pyfunction!(atan, m)?)?;
+    m.add_function(wrap_pyfunction!(arctan, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
 }

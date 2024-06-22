@@ -284,3 +284,134 @@ def linear(a: any = None, b: any = None, c: any = None, search_a: bool = False, 
     if return_string:
         _result = str(_result)
     return _result
+
+def sin(a: any, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Sinus of a Number.
+    """
+    from .highpymath import sin as _sin
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _sin(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def cos(a: any, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Cosinus of a Number.
+    """
+    from .highpymath import cos as _cos
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _cos(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def tan(a: any, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Tanus of a Number.
+    """
+    from .highpymath import tan as _tan
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _tan(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def asin(a: any, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Arcus Sinus of a Number.
+    """
+    from .highpymath import asin as _asin
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _asin(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def acos(a: any, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Arcus Cosinus of a Number.
+    """
+    from .highpymath import acos as _acos
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _acos(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def atan(a: any, use_leibniz: bool = False, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Arcus Tanus of a Number.
+    """
+    from .highpymath import atan as _atan1
+    from .highpymath import arctan as _atan2
+    return_float = True
+    if return_int:
+        return_float = False
+    if use_leibniz:
+        _atan = _atan2
+    else:
+        _atan = _atan1
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _atan(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
