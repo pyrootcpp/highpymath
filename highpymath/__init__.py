@@ -407,7 +407,7 @@ def atan(a: any, use_leibniz: bool = False, return_int: bool = False, return_str
         raise MathValueError("a must be a number")
     if isinstance(a, int):
         a = float(a)
-    _result = _atan(a=a)
+    _result = _atan(a)
     if return_int:
         _result = int(_result)
     elif return_float:
