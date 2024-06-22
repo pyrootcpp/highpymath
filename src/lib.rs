@@ -51,6 +51,15 @@ fn log(base: f32, power: f32) -> PyResult<f32> {
     }
 }
 
+#[pyfunction]
+fn reciprocal(a: f32) -> PyResult<f32> {
+    if a == 0.0 {
+        Err(MathValueError::new_err("Division by Zero"))
+    } else {
+        Ok(1.0 / a)
+    }
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -61,6 +70,7 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(exp, m)?)?;
     m.add_function(wrap_pyfunction!(sqrt, m)?)?;
     m.add_function(wrap_pyfunction!(log, m)?)?;
+    m.add_function(wrap_pyfunction!(reciprocal, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
 }

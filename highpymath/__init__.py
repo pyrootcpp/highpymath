@@ -6,8 +6,9 @@ from .highpymath import exp as _exp
 from .highpymath import sqrt as _sqrt
 from .highpymath import log as _log
 from .highpymath import MathValueError as _mve
+from .highpymath import reciprocal as _reciprocal
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal']
 
 class MathValueError(_mve):
     """
@@ -181,6 +182,26 @@ def log(base: any, power: any, return_int: bool = False, return_string: bool = F
     if isinstance(power, int):
         power = float(power)
     _result = _log(base=base, power=power)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def reciprocal(a: any, return_int: bool = False, return_string: bool = False):
+    """
+    Create the Reciprocal of a Number.
+    """
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    _result = _reciprocal(a=a)
     if return_int:
         _result = int(_result)
     elif return_float:
