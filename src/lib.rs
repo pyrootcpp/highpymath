@@ -49,10 +49,12 @@ fn sqrt(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
 
 #[pyfunction]
 fn log(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
-    if base <= 0.0 {
-        Err(MathValueError::new_err("Base must be greater than 0"))
+    if base <= 0.0 || base == 1.0 {
+        Err(MathValueError::new_err("Base must be greater than 0 and not equal to 1"))
+    } else if power <= 0.0 {
+        Err(MathValueError::new_err("Power must be greater than 0"))
     } else {
-        Ok(power.log(base))
+        Ok(base.log(power))
     }
 }
 
