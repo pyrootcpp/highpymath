@@ -4,23 +4,28 @@ use pyo3::create_exception;
 
 create_exception!(highpymath, MathValueError, PyException);
 
+#[cfg(target_pointer_width = "32")]
+type PyFloat = f32;
+#[cfg(target_pointer_width = "64")]
+type PyFloat = f64;
+
 #[pyfunction]
-fn sum(a: f32, b: f32) -> PyResult<f32> {
+fn sum(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
     Ok(a + b)
 }
 
 #[pyfunction]
-fn sub(a: f32, b: f32) -> PyResult<f32> {
+fn sub(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
     Ok(a - b)
 }
 
 #[pyfunction]
-fn mul(a: f32, b: f32) -> PyResult<f32> {
+fn mul(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
     Ok(a * b)
 }
 
 #[pyfunction]
-fn div(a: f32, b: f32) -> PyResult<f32> {
+fn div(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
     if b == 0.0 {
         Err(MathValueError::new_err("Division by Zero"))
     } else {
@@ -29,12 +34,12 @@ fn div(a: f32, b: f32) -> PyResult<f32> {
 }
 
 #[pyfunction]
-fn exp(base: f32, power: f32) -> PyResult<f32> {
+fn exp(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
     Ok(base.powf(power))
 }
 
 #[pyfunction]
-fn sqrt(base: f32, power: f32) -> PyResult<f32> {
+fn sqrt(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
     if base < 0.0 && power % 2.0 == 0.0 {
         Err(MathValueError::new_err("Negative Base for even Power"))
     } else {
@@ -43,7 +48,7 @@ fn sqrt(base: f32, power: f32) -> PyResult<f32> {
 }
 
 #[pyfunction]
-fn log(base: f32, power: f32) -> PyResult<f32> {
+fn log(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
     if base <= 0.0 {
         Err(MathValueError::new_err("Base must be greater than 0"))
     } else {
@@ -52,7 +57,7 @@ fn log(base: f32, power: f32) -> PyResult<f32> {
 }
 
 #[pyfunction]
-fn reciprocal(a: f32) -> PyResult<f32> {
+fn reciprocal(a: PyFloat) -> PyResult<PyFloat> {
     if a == 0.0 {
         Err(MathValueError::new_err("Division by Zero"))
     } else {
