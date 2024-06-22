@@ -6,6 +6,7 @@ from .highpymath import exp as _exp
 from .highpymath import sqrt as _sqrt
 from .highpymath import log as _log
 from .highpymath import MathValueError as _mve
+from .highpymath import factorial as _factorial
 from .highpymath import reciprocal as _reciprocal
 
 __all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal']
@@ -202,6 +203,24 @@ def reciprocal(a: any, return_int: bool = False, return_string: bool = False):
     if isinstance(a, int):
         a = float(a)
     _result = _reciprocal(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def factorial(a: int, return_int: bool = False, return_string: bool = False):
+    """
+    Get the Factorial from a Number.
+    """
+    return_float = True
+    if return_int:
+        return_float = False
+    if not isinstance(a, int):
+        raise MathValueError("a must be an integer")
+    _result = _factorial(a=a)
     if return_int:
         _result = int(_result)
     elif return_float:

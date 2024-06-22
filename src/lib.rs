@@ -9,6 +9,16 @@ type PyFloat = f32;
 #[cfg(target_pointer_width = "64")]
 type PyFloat = f64;
 
+#[cfg(target_pointer_width = "32")]
+type PyInt = i32;
+#[cfg(target_pointer_width = "64")]
+type PyInt = i64;
+
+#[cfg(target_pointer_width = "32")]
+type PyLong = i64;
+#[cfg(target_pointer_width = "64")]
+type PyLong = i128;
+
 #[pyfunction]
 fn sum(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
     Ok(a + b)
@@ -67,6 +77,21 @@ fn reciprocal(a: PyFloat) -> PyResult<PyFloat> {
     }
 }
 
+#[pyfunction]
+fn factorial(a: PyInt) -> PyResult<PyInt> {
+    if a < 0 {
+        Err(MathValueError::new_err("Negative input not allowed"))
+    } else {
+        let mut result: PyInt = 1;
+        for i in 1..=a {
+            result = result.checked_mul(i).ok_or_else(|| {
+                PyErr::new::<PyException, _>("Integer overflow")
+            })?;
+        }
+        Ok(result)
+    }
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -77,6 +102,7 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(exp, m)?)?;
     m.add_function(wrap_pyfunction!(sqrt, m)?)?;
     m.add_function(wrap_pyfunction!(log, m)?)?;
+    m.add_function(wrap_pyfunction!(factorial, m)?)?;
     m.add_function(wrap_pyfunction!(reciprocal, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
