@@ -1,6 +1,6 @@
 from .highpymath import MathValueError as _mve
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'linear']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'linear', 'cpi']
 
 class MathValueError(_mve):
     """
@@ -415,3 +415,22 @@ def atan(a: any, use_leibniz: bool = False, return_int: bool = False, return_str
     if return_string:
         _result = str(_result)
     return _result
+
+def cpi(return_int: bool = False, return_string: bool = False):
+    """
+    Get the Value of Pi.
+    """
+    from .highpymath import calc_pi as _calc_pi
+    return_float = True
+    if return_int:
+        return_float = False
+    _result = _calc_pi()
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+pi = cpi()

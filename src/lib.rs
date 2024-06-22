@@ -159,6 +159,17 @@ fn arctan(x: PyFloat) -> PyResult<PyFloat> {
     Ok(result)
 }
 
+#[pyfunction]
+fn calc_pi() -> PyResult<PyFloat> {
+    let _a: PyFloat = 1.0 / 2.0;  // Verwende Fließkommadivision
+    let _b: PyFloat = 1.0 / 3.0;  // Verwende Fließkommadivision
+    let _a1: PyFloat = _a.atan();
+    let _b1: PyFloat = _b.atan();
+    let _pi_4tel: PyFloat = _a1 + _b1;
+    let _pi = 4.0 * _pi_4tel;  // Stelle sicher, dass die Multiplikation mit einem Fließkommawert erfolgt
+    Ok(_pi)
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -181,6 +192,7 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(acos, m)?)?;
     m.add_function(wrap_pyfunction!(atan, m)?)?;
     m.add_function(wrap_pyfunction!(arctan, m)?)?;
+    m.add_function(wrap_pyfunction!(calc_pi, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
 }
