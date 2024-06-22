@@ -64,3 +64,48 @@ def sub(a: any, b: any, return_int: bool = False, return_float: bool = True, ret
         _result = str(_result)
     return _result
 
+def mul(a: any, b: any, return_int: bool = False, return_float: bool = True, return_string: bool = False):
+    """
+    Create the Multiplication of 2 Numbers.
+    """
+    if return_int and return_float:
+        raise MathValueError("return_int and return_double cannot be used together")
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if not isinstance(b, (int, float)):
+        raise MathValueError("b must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    if isinstance(b, int):
+        b = float(b)
+    _result = _mul(a=a, b=b)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def div(a: any, b: any, return_int: bool = False, return_float: bool = True, return_string: bool = False):
+    """
+    Create the Division of 2 Numbers.
+    """
+    if return_int and return_float:
+        raise MathValueError("return_int and return_double cannot be used together")
+    if not isinstance(a, (int, float)):
+        raise MathValueError("a must be a number")
+    if not isinstance(b, (int, float)):
+        raise MathValueError("b must be a number")
+    if isinstance(a, int):
+        a = float(a)
+    if isinstance(b, int):
+        b = float(b)
+    _result = _div(a=a, b=b)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
