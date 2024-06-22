@@ -2,9 +2,10 @@ from .highpymath import sum as _sum
 from .highpymath import sub as _sub
 from .highpymath import mul as _mul
 from .highpymath import div as _div
+from .highpymath import exp as _exp
 from .highpymath import MathValueError as _mve
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp']
 
 class MathValueError(_mve):
     """
@@ -102,6 +103,27 @@ def div(a: any, b: any, return_int: bool = False, return_float: bool = True, ret
     if isinstance(b, int):
         b = float(b)
     _result = _div(a=a, b=b)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def exp(base: any, power: any, return_int: bool = False, return_float: bool = True, return_string: bool = False):
+    """
+    Create the Exponentiation of 2 Numbers.
+    """
+    if not isinstance(base, (int, float)):
+        raise MathValueError("base must be a number")
+    if not isinstance(power, (int, float)):
+        raise MathValueError("power must be a number")
+    if isinstance(base, int):
+        base = float(base)
+    if isinstance(power, int):
+        power = float(power)
+    _result = _exp(base=base, power=power)
     if return_int:
         _result = int(_result)
     elif return_float:
