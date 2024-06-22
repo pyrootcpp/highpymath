@@ -15,9 +15,9 @@ type PyInt = i32;
 type PyInt = i64;
 
 #[cfg(target_pointer_width = "32")]
-type PyLong = i64;
+type PyIntLong = i64;
 #[cfg(target_pointer_width = "64")]
-type PyLong = i128;
+type PyIntLong = i128;
 
 #[pyfunction]
 fn sum(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
