@@ -92,6 +92,24 @@ fn factorial(a: PyInt) -> PyResult<PyInt> {
     }
 }
 
+#[pyfunction]
+/// Berechnet die Summe von `a` und `b`. bei Gleichungen a + b = c
+fn linear_base_c(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
+    Ok(a + b)
+}
+
+#[pyfunction]
+/// Berechnet `c` minus `a`, um `b` zu isolieren. bei Gleichungen a + b = c
+fn linear_base_b(a: PyFloat, c: PyFloat) -> PyResult<PyFloat> {
+    Ok(c - a)
+}
+
+#[pyfunction]
+/// Berechnet `c` minus `b`, um `a` zu isolieren. bei Gleichungen a + b = c
+fn linear_base_a(b: PyFloat, c: PyFloat) -> PyResult<PyFloat> {
+    Ok(c - b)
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -104,6 +122,9 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(log, m)?)?;
     m.add_function(wrap_pyfunction!(factorial, m)?)?;
     m.add_function(wrap_pyfunction!(reciprocal, m)?)?;
+    m.add_function(wrap_pyfunction!(linear_base_c, m)?)?;
+    m.add_function(wrap_pyfunction!(linear_base_b, m)?)?;
+    m.add_function(wrap_pyfunction!(linear_base_a, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
 }

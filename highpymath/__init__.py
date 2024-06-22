@@ -1,15 +1,6 @@
-from .highpymath import sum as _sum
-from .highpymath import sub as _sub
-from .highpymath import mul as _mul
-from .highpymath import div as _div
-from .highpymath import exp as _exp
-from .highpymath import sqrt as _sqrt
-from .highpymath import log as _log
 from .highpymath import MathValueError as _mve
-from .highpymath import factorial as _factorial
-from .highpymath import reciprocal as _reciprocal
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'linear']
 
 class MathValueError(_mve):
     """
@@ -27,6 +18,7 @@ def sum(a: any, b: any, return_int: bool = False, return_string: bool = False):
     """
     Create the Summary of 2 Numbers.
     """
+    from .highpymath import sum as _sum
     return_float = True
     if return_int:
         return_float = False
@@ -51,6 +43,7 @@ def sub(a: any, b: any, return_int: bool = False, return_string: bool = False):
     """
     Create the Subtraction of 2 Numbers.
     """
+    from .highpymath import sub as _sub
     return_float = True
     if return_int:
         return_float = False
@@ -75,6 +68,7 @@ def mul(a: any, b: any, return_int: bool = False, return_string: bool = False):
     """
     Create the Multiplication of 2 Numbers.
     """
+    from .highpymath import mul as _mul
     return_float = True
     if return_int:
         return_float = False
@@ -99,6 +93,7 @@ def div(a: any, b: any, return_int: bool = False, return_string: bool = False):
     """
     Create the Division of 2 Numbers.
     """
+    from .highpymath import div as _div
     return_float = True
     if return_int:
         return_float = False
@@ -123,6 +118,7 @@ def exp(base: any, power: any, return_int: bool = False, return_string: bool = F
     """
     Create the Exponentiation of 2 Numbers.
     """
+    from .highpymath import exp as _exp
     return_float = True
     if return_int:
         return_float = False
@@ -147,6 +143,7 @@ def sqrt(base: any, power: any = 2, return_int: bool = False, return_string: boo
     """
     Create the Square Root of a Number.
     """
+    from .highpymath import sqrt as _sqrt
     return_float = True
     if return_int:
         return_float = False
@@ -171,6 +168,7 @@ def log(base: any, power: any = 10, return_int: bool = False, return_string: boo
     """
     Create the Logarithm of a Number.
     """
+    from .highpymath import log as _log
     return_float = True
     if return_int:
         return_float = False
@@ -195,6 +193,7 @@ def reciprocal(a: any, return_int: bool = False, return_string: bool = False):
     """
     Create the Reciprocal of a Number.
     """
+    from .highpymath import reciprocal as _reciprocal
     return_float = True
     if return_int:
         return_float = False
@@ -215,12 +214,69 @@ def factorial(a: int, return_int: bool = False, return_string: bool = False):
     """
     Get the Factorial from a Number.
     """
+    from .highpymath import factorial as _factorial
     return_float = True
     if return_int:
         return_float = False
     if not isinstance(a, int):
         raise MathValueError("a must be an integer")
     _result = _factorial(a=a)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+def linear(a: any = None, b: any = None, c: any = None, search_a: bool = False, search_b: bool = False, search_c: bool = False, return_int: bool = False, return_string: bool = False):
+    """
+    Solve the Linear Function from type: a + b = c
+    """
+    from .highpymath import linear_base_a as _linear_base_a
+    from .highpymath import linear_base_b as _linear_base_b
+    from .highpymath import linear_base_c as _linear_base_c
+    return_float = True
+    if return_int:
+        return_float = False
+    if search_a and search_b and search_c:
+        raise MathValueError("You need to specify one of the 3 arguments")
+    if search_a and search_b:
+        raise MathValueError("You need to specify one of the 3 arguments")
+    if search_a and search_c:
+        raise MathValueError("You need to specify one of the 3 arguments")
+    if search_b and search_c:
+        raise MathValueError("You need to specify one of the 3 arguments")
+    if search_a:
+        if not isinstance(b, (int, float)):
+            raise MathValueError("b must be a number")
+        if not isinstance(c, (int, float)):
+            raise MathValueError("c must be a number")
+        if isinstance(b, int):
+            b = float(b)
+        if isinstance(c, int):
+            c = float(c)
+        _result = _linear_base_a(b=b, c=c)
+    elif search_b:
+        if not isinstance(a, (int, float)):
+            raise MathValueError("a must be a number")
+        if not isinstance(c, (int, float)):
+            raise MathValueError("c must be a number")
+        if isinstance(a, int):
+            a = float(a)
+        if isinstance(c, int):
+            c = float(c)
+        _result = _linear_base_b(a=a, c=c)
+    elif search_c:
+        if not isinstance(a, (int, float)):
+            raise MathValueError("a must be a number")
+        if not isinstance(b, (int, float)):
+            raise MathValueError("b must be a number")
+        if isinstance(a, int):
+            a = float(a)
+        if isinstance(b, int):
+            b = float(b)
+        _result = _linear_base_c(a=a, b=b)
     if return_int:
         _result = int(_result)
     elif return_float:
