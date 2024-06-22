@@ -142,7 +142,7 @@ def exp(base: any, power: any, return_int: bool = False, return_string: bool = F
         _result = str(_result)
     return _result
 
-def sqrt(base: any, power: any, return_int: bool = False, return_string: bool = False):
+def sqrt(base: any, power: any = 2, return_int: bool = False, return_string: bool = False):
     """
     Create the Square Root of a Number.
     """
@@ -166,7 +166,7 @@ def sqrt(base: any, power: any, return_int: bool = False, return_string: bool = 
         _result = str(_result)
     return _result
 
-def log(base: any, power: any, return_int: bool = False, return_string: bool = False):
+def log(base: any, power: any = 10, return_int: bool = False, return_string: bool = False):
     """
     Create the Logarithm of a Number.
     """
