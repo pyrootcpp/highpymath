@@ -19,6 +19,11 @@ type PyIntLong = i64;
 #[cfg(target_pointer_width = "64")]
 type PyIntLong = i128;
 
+#[cfg(target_pointer_width = "32")]
+type PyUInt = u32;
+#[cfg(target_pointer_width = "64")]
+type PyUInt = u64;
+
 #[pyfunction]
 fn sum(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
     Ok(a + b)
@@ -142,7 +147,6 @@ fn atan(a: PyFloat) -> PyResult<PyFloat> {
 
 #[pyfunction]
 fn arctan(x: PyFloat) -> PyResult<PyFloat> {
-    /// Berechne den arcus tangens Wert mit der Leibniz-Reihe
     let mut result: PyFloat = 0.0;
     let mut term: PyFloat = x;  // Startterm x^1 / 1
     let mut i: PyInt = 1;
@@ -170,6 +174,28 @@ fn calc_pi() -> PyResult<PyFloat> {
     Ok(_pi)
 }
 
+fn facto(n: PyUInt) -> PyUInt {
+    let mut result = 1;
+    for i in 1..=n {
+        let new_result = result * i;
+        if new_result < result {  // Überlaufprüfung
+            panic!("Integer overflow during factorial calculation");
+        }
+        result = new_result;
+    }
+    result
+}
+
+#[pyfunction]
+fn calc_e(max: PyInt) -> PyResult<PyFloat> {
+    let mut result: PyFloat = 0.0;
+    for i in 0..max {
+        let factorial_result = facto(i as PyUInt);  // Typkonvertierung, falls notwendig
+        result += 1.0 / factorial_result as PyFloat;  // Korrekte Typumwandlung
+    }
+    Ok(result)
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -193,6 +219,7 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(atan, m)?)?;
     m.add_function(wrap_pyfunction!(arctan, m)?)?;
     m.add_function(wrap_pyfunction!(calc_pi, m)?)?;
+    m.add_function(wrap_pyfunction!(calc_e, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
 }

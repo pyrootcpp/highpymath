@@ -416,7 +416,7 @@ def atan(a: any, use_leibniz: bool = False, return_int: bool = False, return_str
         _result = str(_result)
     return _result
 
-def cpi(return_int: bool = False, return_string: bool = False):
+def calc_pi(return_int: bool = False, return_string: bool = False):
     """
     Get the Value of Pi.
     """
@@ -433,4 +433,23 @@ def cpi(return_int: bool = False, return_string: bool = False):
         _result = str(_result)
     return _result
 
-pi = cpi()
+pi = calc_pi()
+
+def calc_e(max: int = 1000, return_int: bool = True, return_string: bool = False):
+    """
+    Calculate the euler number.
+    """
+    from .highpymath import calc_e as _calc_e
+    return_float = True
+    if return_int:
+        return_float = False
+    _result = _calc_e(max=max)
+    if return_int:
+        _result = int(_result)
+    elif return_float:
+        _result = float(_result)
+    if return_string:
+        _result = str(_result)
+    return _result
+
+e = calc_e()
