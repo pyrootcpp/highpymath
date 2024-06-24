@@ -1,7 +1,23 @@
 from .highpymath import MathValueError as _mve
 from .highpymath import GeometryError as _ge
+from .highpymath import MathBaseError as _mbe
+from .exceptions import MathTypeError
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e', 'MathTypeError']
+
+class MathBaseError(_mbe):
+    """
+    Exception Class for Math Base Errors.
+    """
+    def __init__(self, *args: object):
+        """
+        Initial the Exception Class with Given Arguments.
+        """
+        self.args_list = list(args)
+        self.args_str = str(args)
+        super().__init__(*args)
+
+__all__.append('MathBaseError')
 
 class MathValueError(_mve):
     """
@@ -38,9 +54,9 @@ def sum(a: any, b: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if not isinstance(b, (int, float)):
-        raise MathValueError("b must be a number")
+        raise MathTypeError("b must be a number")
     if isinstance(a, int):
         a = float(a)
     if isinstance(b, int):
@@ -63,9 +79,9 @@ def sub(a: any, b: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if not isinstance(b, (int, float)):
-        raise MathValueError("b must be a number")
+        raise MathTypeError("b must be a number")
     if isinstance(a, int):
         a = float(a)
     if isinstance(b, int):
@@ -88,9 +104,9 @@ def mul(a: any, b: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if not isinstance(b, (int, float)):
-        raise MathValueError("b must be a number")
+        raise MathTypeError("b must be a number")
     if isinstance(a, int):
         a = float(a)
     if isinstance(b, int):
@@ -113,9 +129,9 @@ def div(a: any, b: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if not isinstance(b, (int, float)):
-        raise MathValueError("b must be a number")
+        raise MathTypeError("b must be a number")
     if isinstance(a, int):
         a = float(a)
     if isinstance(b, int):
@@ -138,9 +154,9 @@ def exp(base: any, power: any, return_int: bool = False, return_string: bool = F
     if return_int:
         return_float = False
     if not isinstance(base, (int, float)):
-        raise MathValueError("base must be a number")
+        raise MathTypeError("base must be a number")
     if not isinstance(power, (int, float)):
-        raise MathValueError("power must be a number")
+        raise MathTypeError("power must be a number")
     if isinstance(base, int):
         base = float(base)
     if isinstance(power, int):
@@ -163,9 +179,9 @@ def sqrt(base: any, power: any = 2, return_int: bool = False, return_string: boo
     if return_int:
         return_float = False
     if not isinstance(base, (int, float)):
-        raise MathValueError("base must be a number")
+        raise MathTypeError("base must be a number")
     if not isinstance(power, (int, float)):
-        raise MathValueError("power must be a number")
+        raise MathTypeError("power must be a number")
     if isinstance(base, int):
         base = float(base)
     if isinstance(power, int):
@@ -188,9 +204,9 @@ def log(base: any, power: any = 10, return_int: bool = False, return_string: boo
     if return_int:
         return_float = False
     if not isinstance(base, (int, float)):
-        raise MathValueError("base must be a number")
+        raise MathTypeError("base must be a number")
     if not isinstance(power, (int, float)):
-        raise MathValueError("power must be a number")
+        raise MathTypeError("power must be a number")
     if isinstance(base, int):
         base = float(base)
     if isinstance(power, int):
@@ -213,7 +229,7 @@ def reciprocal(a: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _reciprocal(a=a)
@@ -234,7 +250,7 @@ def factorial(a: int, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, int):
-        raise MathValueError("a must be an integer")
+        raise MathTypeError("a must be an integer")
     _result = _factorial(a=a)
     if return_int:
         _result = int(_result)
@@ -253,7 +269,7 @@ def sin(a: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _sin(a=a)
@@ -274,7 +290,7 @@ def cos(a: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _cos(a=a)
@@ -295,7 +311,7 @@ def tan(a: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _tan(a=a)
@@ -316,7 +332,7 @@ def asin(a: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _asin(a=a)
@@ -337,7 +353,7 @@ def acos(a: any, return_int: bool = False, return_string: bool = False):
     if return_int:
         return_float = False
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _acos(a=a)
@@ -363,7 +379,7 @@ def atan(a: any, use_leibniz: bool = False, return_int: bool = False, return_str
     else:
         _atan = _atan1
     if not isinstance(a, (int, float)):
-        raise MathValueError("a must be a number")
+        raise MathTypeError("a must be a number")
     if isinstance(a, int):
         a = float(a)
     _result = _atan(a)
@@ -435,9 +451,9 @@ class equation:
         if return_int:
             return_float = False
         if not isinstance(a, (int, float)):
-            raise MathValueError("a must be a Number")
+            raise MathTypeError("a must be a Number")
         if not isinstance(b, (int, float)):
-            raise MathValueError("b must be a Number")
+            raise MathTypeError("b must be a Number")
         if not use_pq and c is None:
             raise MathValueError("c is set as None, but you don't use pq")
         if not use_pq and not isinstance(c, (int, float)):
@@ -489,9 +505,9 @@ class equation:
             raise MathValueError("You need to specify one of the 3 arguments")
         if search_a:
             if not isinstance(b, (int, float)):
-                raise MathValueError("b must be a number")
+                raise MathTypeError("b must be a number")
             if not isinstance(c, (int, float)):
-                raise MathValueError("c must be a number")
+                raise MathTypeError("c must be a number")
             if isinstance(b, int):
                 b = float(b)
             if isinstance(c, int):
@@ -499,9 +515,9 @@ class equation:
             _result = _linear_base_a(b=b, c=c)
         elif search_b:
             if not isinstance(a, (int, float)):
-                raise MathValueError("a must be a number")
+                raise MathTypeError("a must be a number")
             if not isinstance(c, (int, float)):
-                raise MathValueError("c must be a number")
+                raise MathTypeError("c must be a number")
             if isinstance(a, int):
                 a = float(a)
             if isinstance(c, int):
@@ -509,9 +525,9 @@ class equation:
             _result = _linear_base_b(a=a, c=c)
         elif search_c:
             if not isinstance(a, (int, float)):
-                raise MathValueError("a must be a number")
+                raise MathTypeError("a must be a number")
             if not isinstance(b, (int, float)):
-                raise MathValueError("b must be a number")
+                raise MathTypeError("b must be a number")
             if isinstance(a, int):
                 a = float(a)
             if isinstance(b, int):
@@ -537,6 +553,10 @@ def sqrt2(base: any, return_int: bool = False, return_string: bool = False):
     return_float = True
     if return_int:
         return_float = False
+    if not isinstance(base, (int, float)):
+        raise MathTypeError("base must be a number")
+    if isinstance(base, int):
+        base = float(base)
     _result = _sqrt2(base=base)
     if return_int:
         _result = int(_result)
@@ -556,6 +576,10 @@ def exp2(base: any, return_int: bool = False, return_string: bool = False):
     return_float = True
     if return_int:
         return_float = False
+    if not isinstance(base, (int, float)):
+        raise MathTypeError("base must be a number")
+    if isinstance(base, int):
+        base = float(base)
     _result = _exp2(base=base)
     if return_int:
         _result = int(_result)
@@ -572,7 +596,7 @@ class GeometricProperties2D:
     Class to Work with Geometric Properties.
     """
     @staticmethod
-    def rectangle(a: any, b: any, return_area: bool = False, return_circumference: bool = False, return_both: bool = False, return_int: bool = False, return_string: bool = False):
+    def rectangle(a: any, b: any, return_area: bool = False, return_circumference: bool = False, return_both: bool = True, return_int: bool = False, return_string: bool = False):
         """
         Calculate the Area or the Circumference of a Rectangle.
         Attention
@@ -589,16 +613,16 @@ class GeometricProperties2D:
         if return_area and return_circumference:
             raise MathValueError("You need to specify one of the 3 arguments")
         if return_area and return_both:
-            raise MathValueError("You need to specify one of the 3 arguments")
+            return_both = False
         if return_circumference and return_both:
-            raise MathValueError("You need to specify one of the 3 arguments")
+            return_both = False
         return_flaot = True
         if return_int:
             return_float = False
         if not isinstance(a, (int, float)):
-            raise MathValueError("a must be a number")
+            raise MathTypeError("a must be a number")
         if not isinstance(b, (int, float)):
-            raise MathValueError("b must be a number")
+            raise MathTypeError("b must be a number")
         if isinstance(a, int):
             a = float(a)
         if isinstance(b, int):
@@ -622,7 +646,7 @@ class GeometricProperties2D:
             return _circumference
         
     @staticmethod
-    def quadratic(a: any, return_area: bool = False, return_circumference: bool = False, return_both: bool = False, return_int: bool = False, return_string: bool = False):
+    def quadratic(a: any, return_area: bool = False, return_circumference: bool = False, return_both: bool = True, return_int: bool = False, return_string: bool = False):
         """
         Calculate the Area or the Circumference of a Quadratic.
         Attention
@@ -639,14 +663,14 @@ class GeometricProperties2D:
         if return_area and return_circumference:
             raise MathValueError("You need to specify one of the 3 arguments")
         if return_area and return_both:
-            raise MathValueError("You need to specify one of the 3 arguments")
+            return_both = False
         if return_circumference and return_both:
-            raise MathValueError("You need to specify one of the 3 arguments")
+            return_both = False
         return_float = True
         if return_int:
             return_float = False
         if not isinstance(a, (int, float)):
-            raise MathValueError("a must be a number")
+            raise MathTypeError("a must be a number")
         if isinstance(a, int):
             a = float(a)
         _area = _qa(a=a)
@@ -668,7 +692,7 @@ class GeometricProperties2D:
             return _circumference
         
     @staticmethod
-    def circle(r: any, r_is_d: bool = False, return_area: bool = False, return_circumference: bool = False, return_both: bool = False, return_int: bool = False, return_string: bool = False):
+    def circle(r: any, r_is_d: bool = False, return_area: bool = False, return_circumference: bool = False, return_both: bool = True, return_int: bool = False, return_string: bool = False):
         """
         Calculate the Area or the Circumference of a Circle.
         Attention
@@ -686,14 +710,14 @@ class GeometricProperties2D:
         if return_area and return_circumference:
             raise MathValueError("You need to specify one of the 3 arguments")
         if return_area and return_both:
-            raise MathValueError("You need to specify one of the 3 arguments")
+            return_both = False
         if return_circumference and return_both:
-            raise MathValueError("You need to specify one of the 3 arguments")
+            return_both = False
         return_float = True
         if return_int:
             return_float = False
         if not isinstance(r, (int, float)):
-            raise MathValueError("r must be a number")
+            raise MathTypeError("r must be a number")
         if isinstance(r, int):
             r = float(r)
         if r_is_d:
