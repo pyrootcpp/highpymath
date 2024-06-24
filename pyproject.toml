@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "highpymath"
-version = "0.1.1"
+version = "0.1.2"
 description = "High Quality Math library for Python"
 authors = [
     { name = "pyrootcpp", email = "pyrootcpp@outlook.de" }
