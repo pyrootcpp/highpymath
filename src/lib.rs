@@ -290,6 +290,16 @@ fn trapezoid_circumference(a: PyFloat, b: PyFloat, c: PyFloat, d: PyFloat) -> Py
     Ok(a + b + c + d)
 }
 
+#[pyfunction]
+fn parallelogram_area(a: PyFloat, h: PyFloat) -> PyResult<PyFloat> {
+    Ok(a * h)
+}
+
+#[pyfunction]
+fn parallelogram_circumference(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
+    Ok(2.0 * (a + b))
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -325,6 +335,8 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(circle_circumference, m)?)?;
     m.add_function(wrap_pyfunction!(trapezoid_area, m)?)?;
     m.add_function(wrap_pyfunction!(trapezoid_circumference, m)?)?;
+    m.add_function(wrap_pyfunction!(parallelogram_area, m)?)?;
+    m.add_function(wrap_pyfunction!(parallelogram_circumference, m)?)?;
     m.add("MathTypeError", m.py().get_type::<MathTypeError>())?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;  
     m.add("GeometryError", m.py().get_type::<GeometryError>())?;

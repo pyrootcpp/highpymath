@@ -765,6 +765,12 @@ class GeometricProperties2D:
             raise MathTypeError("a must be a number")
         if not isinstance(b, (int, float)):
             raise MathTypeError("b must be a number")
+        if return_area or return_both and not isinstance(h, (int, float)):
+            raise MathTypeError("h must be a number")
+        if return_circumference or return_both and not isinstance(c, (int, float)):
+            raise MathTypeError("c must be a number")
+        if return_circumference or return_both and not isinstance(d, (int, float)):
+            raise MathTypeError("d must be a number")
         if return_area or return_both and isinstance(h, int):
             h = float(h)
         if return_circumference or return_both and isinstance(c, int):
@@ -779,6 +785,68 @@ class GeometricProperties2D:
             _area = _ta(a=a, b=b, h=h)
         if return_circumference or return_both:
             _circumference = _tc(a=a, b=b, c=c, d=d)
+        if return_int:
+            if _area:
+                _area = int(_area)
+            if _circumference:
+                _circumference = int(_circumference)
+        elif return_float:
+            if _area:
+                _area = float(_area)
+            if _circumference:
+                _circumference = float(_circumference)
+        if return_string:
+            if _area:
+                _area = str(_area)
+            if _circumference:
+                _circumference = str(_circumference)
+        if return_both:
+            return _area, _circumference
+        elif return_area:
+            return _area
+        elif return_circumference:
+            return _circumference
+
+    @staticmethod
+    def parallelogram(a: any, b: any = None, h: any = None, return_area: bool = False, return_circumference: bool = False, return_both: bool = True, return_int: bool = False, return_string: bool = False):
+        """
+        Calculate the Area or the Circumference of a Parallelogram.
+        """
+        from .highpymath import parallelogram_area as _pa
+        from .highpymath import parallelogram_circumference as _pc
+        if not return_area and not return_circumference and not return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_circumference:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_both:
+            return_both = False
+        if return_circumference and return_both:
+            return_both = False
+        return_float = True
+        if return_int:
+            return_float = False
+        if return_area and h is None:
+            raise MathValueError("You need to specify h")
+        if return_circumference or return_both and b is None:
+            raise MathValueError("You need to specify b")
+        if not isinstance(a, (int, float)):
+            raise MathTypeError("a must be a number")
+        if return_area or return_both and not isinstance(h, (int, float)):
+            raise MathTypeError("h must be a number")
+        if return_circumference or return_both and not isinstance(b, (int, float)):
+            raise MathTypeError("b must be a number")
+        if isinstance(a, int):
+            a = float(a)
+        if isinstance(b, int):
+            b = float(b)
+        if return_area and isinstance(h, int):
+            h = float(h)
+        if return_circumference and isinstance(b, int):
+            b = float(b)
+        if return_area or return_both:
+            _area = _pa(a=a, h=h)
+        if return_circumference or return_both:
+            _circumference = _pc(a=a, b=b)
         if return_int:
             if _area:
                 _area = int(_area)
