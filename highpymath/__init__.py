@@ -2,8 +2,11 @@ from .highpymath import MathValueError as _mve
 from .highpymath import GeometryError as _ge
 from .highpymath import MathBaseError as _mbe
 from .exceptions import MathTypeError
+from .fast import fast_div as fdiv
+from .fast import fast_mul as fmul
+from .fast import fast_exp as fexp
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e', 'MathTypeError']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e', 'MathTypeError', 'fdiv', 'fmul', 'fexp']
 
 class MathBaseError(_mbe):
     """
