@@ -54,12 +54,23 @@ fn exp(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
 }
 
 #[pyfunction]
+fn exp2(base: PyFloat) -> PyResult<PyFloat> {
+    let _result = base.powf(2.0);
+    Ok(_result)
+}
+
+#[pyfunction]
 fn sqrt(base: PyFloat, power: PyFloat) -> PyResult<PyFloat> {
     if base < 0.0 && power % 2.0 == 0.0 {
         Err(MathValueError::new_err("Negative Base for even Power"))
     } else {
         Ok(base.powf(1.0 / power))
     }
+}
+
+#[pyfunction]
+fn sqrt2(base: PyFloat) -> PyResult<PyFloat> {
+    Ok(base.sqrt())
 }
 
 #[pyfunction]
@@ -174,27 +185,60 @@ fn calc_pi() -> PyResult<PyFloat> {
     Ok(_pi)
 }
 
-fn facto(n: PyUInt) -> PyUInt {
-    let mut result = 1;
-    for i in 1..=n {
-        let new_result = result * i;
-        if new_result < result {  // Überlaufprüfung
-            panic!("Integer overflow during factorial calculation");
-        }
-        result = new_result;
+#[pyfunction]
+fn quadratic_base(a: PyFloat, b: PyFloat, c: PyFloat) -> PyResult<(PyFloat, PyFloat)> {
+    if a == 0.0 {
+        return Err(MathValueError::new_err("Coefficient 'a' must not be zero"));
     }
-    result
+    let discriminant = b.powf(2.0) - 4.0 * a * c;
+    if discriminant.is_nan() || discriminant.is_infinite() {
+        return Err(MathValueError::new_err("Discriminant calculation resulted in an invalid number"));
+    }
+    if discriminant < 0.0 {
+        let sqrt_discriminant = (-discriminant).sqrt();
+        let _result1 = (-b / (2.0 * a)) + (sqrt_discriminant / (2.0 * a));
+        let _result2 = (-b / (2.0 * a)) - (sqrt_discriminant / (2.0 * a));
+        if _result1.is_nan() || _result1.is_infinite() || _result2.is_nan() || _result2.is_infinite() {
+            return Err(MathValueError::new_err("Result calculation resulted in an invalid number"));
+        }
+        Ok((_result1, _result2))
+    } else {
+        let sqrt_discriminant = discriminant.sqrt();
+        let _result1 = (-b + sqrt_discriminant) / (2.0 * a);
+        let _result2 = (-b - sqrt_discriminant) / (2.0 * a);
+        if _result1.is_nan() || _result1.is_infinite() || _result2.is_nan() || _result2.is_infinite() {
+            return Err(MathValueError::new_err("Result calculation resulted in an invalid number"));
+        }
+        Ok((_result1, _result2))
+    }
 }
 
 #[pyfunction]
-fn calc_e(max: PyInt) -> PyResult<PyFloat> {
-    let mut result: PyFloat = 0.0;
-    for i in 0..max {
-        let factorial_result = facto(i as PyUInt);  // Typkonvertierung, falls notwendig
-        result += 1.0 / factorial_result as PyFloat;  // Korrekte Typumwandlung
+fn quadratic_pq(p: PyFloat, q: PyFloat) -> PyResult<(PyFloat, PyFloat)> {
+    let discriminant = (p / 2.0).powf(2.0) - q;
+    if discriminant.is_nan() || discriminant.is_infinite() {
+        return Err(MathValueError::new_err("Discriminant calculation resulted in an invalid number"));
     }
-    Ok(result)
+    if discriminant < 0.0 {
+        let sqrt_discriminant = (-discriminant).sqrt();
+        let _result1 = -(p / 2.0) + sqrt_discriminant;
+        let _result2 = -(p / 2.0) - sqrt_discriminant;
+        if _result1.is_nan() || _result1.is_infinite() || _result2.is_nan() || _result2.is_infinite() {
+            return Err(MathValueError::new_err("Result calculation resulted in an invalid number"));
+        }
+        Ok((_result1, _result2))
+    } else {
+        let sqrt_discriminant = discriminant.sqrt();
+        let _result1 = -(p / 2.0) + sqrt_discriminant;
+        let _result2 = -(p / 2.0) - sqrt_discriminant;
+        if _result1.is_nan() || _result1.is_infinite() || _result2.is_nan() || _result2.is_infinite() {
+            return Err(MathValueError::new_err("Result calculation resulted in an invalid number"));
+        }
+        Ok((_result1, _result2))
+    }
 }
+
+// ... bestehender Code ...
 
 /// A Python module implemented in Rust.
 #[pymodule]
@@ -204,7 +248,9 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(mul, m)?)?;
     m.add_function(wrap_pyfunction!(div, m)?)?;
     m.add_function(wrap_pyfunction!(exp, m)?)?;
+    m.add_function(wrap_pyfunction!(exp2, m)?)?;
     m.add_function(wrap_pyfunction!(sqrt, m)?)?;
+    m.add_function(wrap_pyfunction!(sqrt2, m)?)?;
     m.add_function(wrap_pyfunction!(log, m)?)?;
     m.add_function(wrap_pyfunction!(factorial, m)?)?;
     m.add_function(wrap_pyfunction!(reciprocal, m)?)?;
@@ -219,7 +265,8 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(atan, m)?)?;
     m.add_function(wrap_pyfunction!(arctan, m)?)?;
     m.add_function(wrap_pyfunction!(calc_pi, m)?)?;
-    m.add_function(wrap_pyfunction!(calc_e, m)?)?;
+    m.add_function(wrap_pyfunction!(quadratic_base, m)?)?;
+    m.add_function(wrap_pyfunction!(quadratic_pq, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     Ok(())
 }
