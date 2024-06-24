@@ -11,6 +11,8 @@ Welcome to highpymath's documentation!
    :caption: Contents:
 
    usage/install
+   implement/rust
+   implement/python
 
 
 
