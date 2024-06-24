@@ -666,6 +666,55 @@ class GeometricProperties2D:
             return _area
         elif return_circumference:
             return _circumference
+        
+    @staticmethod
+    def circle(r: any, r_is_d: bool = False, return_area: bool = False, return_circumference: bool = False, return_both: bool = False, return_int: bool = False, return_string: bool = False):
+        """
+        Calculate the Area or the Circumference of a Circle.
+        Attention
+        - If you use r_is_d = True, r will be used as d.
+        - If you use return_both, the result will be a tuple.
+        - If you use return_area, the result will be the area.
+        - If you use return_circumference, the result will be the circumference.
+        - If you use return_area and return_circumference, the result will be an Error.
+        - You can select only one, but you must set one.
+        """
+        from .highpymath import circle_area as _ca
+        from .highpymath import circle_circumference as _cc
+        if not return_area and not return_circumference and not return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_circumference:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_circumference and return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        return_float = True
+        if return_int:
+            return_float = False
+        if not isinstance(r, (int, float)):
+            raise MathValueError("r must be a number")
+        if isinstance(r, int):
+            r = float(r)
+        if r_is_d:
+            r = div(r, 2)
+        _area = _ca(r=r)
+        _circumference = _cc(r=r)
+        if return_int:
+            _area = int(_area)
+            _circumference = int(_circumference)
+        elif return_float:
+            _area = float(_area)
+            _circumference = float(_circumference)
+        if return_string:
+            _area = str(_area)
+            _circumference = str(_circumference)
+        if return_both:
+            return _area, _circumference
+        elif return_area:
+            return _area
+        elif return_circumference:
+            return _circumference
 
 GeometricProperties2D = GeometricProperties2D()
 

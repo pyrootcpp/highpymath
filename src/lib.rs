@@ -258,6 +258,27 @@ fn quadratic_area(a: PyFloat) -> PyResult<PyFloat> {
 fn quadratic_circumference(a: PyFloat) -> PyResult<PyFloat> {
     Ok(4.0 * a)
 }
+
+#[pyfunction]
+fn circle_area(r: PyFloat) -> PyResult<PyFloat> {
+    let _a: PyFloat = 1.0 / 2.0;  // Verwende Fließkommadivision
+    let _b: PyFloat = 1.0 / 3.0;  // Verwende Fließkommadivision
+    let _c: PyFloat = _a.atan() + _b.atan();
+    let _pi: PyFloat = 4.0 * _c;
+    let _result: PyFloat = _pi * r * r;
+    Ok(_result)
+}
+
+#[pyfunction]
+fn circle_circumference(r: PyFloat) -> PyResult<PyFloat> {
+    let _a: PyFloat = 1.0 / 2.0;  // Verwende Fließkommadivision
+    let _b: PyFloat = 1.0 / 3.0;  // Verwende Fließkommadivision
+    let _c: PyFloat = _a.atan() + _b.atan();
+    let _pi: PyFloat = 4.0 * _c;
+    let _result: PyFloat = 2.0 * _pi * r;
+    Ok(_result)
+}
+
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -289,6 +310,8 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(rectangle_circumference, m)?)?;
     m.add_function(wrap_pyfunction!(quadratic_area, m)?)?;
     m.add_function(wrap_pyfunction!(quadratic_circumference, m)?)?;
+    m.add_function(wrap_pyfunction!(circle_area, m)?)?;
+    m.add_function(wrap_pyfunction!(circle_circumference, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
     m.add("GeometryError", m.py().get_type::<GeometryError>())?;
     Ok(())
