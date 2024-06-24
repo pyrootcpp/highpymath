@@ -435,7 +435,7 @@ def calc_pi(return_int: bool = False, return_string: bool = False):
 
 pi = calc_pi()
 
-def calc_e(max: int = 1000, return_int: bool = True, return_string: bool = False):
+def calc_e(max: int = 10, return_int: bool = True, return_string: bool = False):
     """
     Calculate the euler number.
     """

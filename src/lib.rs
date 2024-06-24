@@ -174,24 +174,11 @@ fn calc_pi() -> PyResult<PyFloat> {
     Ok(_pi)
 }
 
-fn facto(n: PyUInt) -> PyUInt {
-    let mut result = 1;
-    for i in 1..=n {
-        let new_result = result * i;
-        if new_result < result {  // Überlaufprüfung
-            panic!("Integer overflow during factorial calculation");
-        }
-        result = new_result;
-    }
-    result
-}
-
 #[pyfunction]
-fn calc_e(max: PyInt) -> PyResult<PyFloat> {
-    let mut result: PyFloat = 0.0;
+fn calc_e(max: PyInt) -> PyResult<PyInt> {
+    let mut result: PyInt = 0;
     for i in 0..max {
-        let factorial_result = facto(i as PyUInt);  // Typkonvertierung, falls notwendig
-        result += 1.0 / factorial_result as PyFloat;  // Korrekte Typumwandlung
+        result += result.checked_mul(i).unwrap();
     }
     Ok(result)
 }
