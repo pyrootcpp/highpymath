@@ -736,6 +736,70 @@ class GeometricProperties2D:
             return _area
         elif return_circumference:
             return _circumference
+    
+    @staticmethod
+    def trapezoid(a: any, b: any, c: any = None, d: any = None, h: any = None, return_area: bool = False, return_circumference: bool = False, return_both: bool = True, return_int: bool = False, return_string: bool = False):
+        """
+        Calculate the Area or the Circumference of a Trapezoid.
+        """
+        from .highpymath import trapezoid_area as _ta
+        from .highpymath import trapezoid_circumference as _tc
+        if not return_area and not return_circumference and not return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_circumference:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_both:
+            return_both = False
+        if return_circumference and return_both:
+            return_both = False
+        return_float = True
+        if return_int:
+            return_float = False
+        if return_area and h is None:
+            raise MathValueError("You need to specify h")
+        if return_circumference or return_both and c is None:
+            raise MathValueError("You need to specify c")
+        if return_circumference or return_both and d is None:
+            raise MathValueError("You need to specify d")
+        if not isinstance(a, (int, float)):
+            raise MathTypeError("a must be a number")
+        if not isinstance(b, (int, float)):
+            raise MathTypeError("b must be a number")
+        if return_area or return_both and isinstance(h, int):
+            h = float(h)
+        if return_circumference or return_both and isinstance(c, int):
+            c = float(c)
+        if return_circumference or return_both and isinstance(d, int):
+            d = float(d)
+        if isinstance(a, int):
+            a = float(a)
+        if isinstance(b, int):
+            b = float(b)
+        if return_area or return_both:
+            _area = _ta(a=a, b=b, h=h)
+        if return_circumference or return_both:
+            _circumference = _tc(a=a, b=b, c=c, d=d)
+        if return_int:
+            if _area:
+                _area = int(_area)
+            if _circumference:
+                _circumference = int(_circumference)
+        elif return_float:
+            if _area:
+                _area = float(_area)
+            if _circumference:
+                _circumference = float(_circumference)
+        if return_string:
+            if _area:
+                _area = str(_area)
+            if _circumference:
+                _circumference = str(_circumference)
+        if return_both:
+            return _area, _circumference
+        elif return_area:
+            return _area
+        elif return_circumference:
+            return _circumference
 
 GeometricProperties2D = GeometricProperties2D()
 
