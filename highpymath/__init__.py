@@ -1,4 +1,5 @@
 from .highpymath import MathValueError as _mve
+from .highpymath import GeometryError as _ge
 
 __all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e']
 
@@ -13,6 +14,20 @@ class MathValueError(_mve):
         self.args_list = list(args)
         self.args_str = str(args)
         super().__init__(*args)
+
+class GeometryError(_ge):
+    """
+    Exception Class for Geometry Errors.
+    """
+    def __init__(self, *args: object):
+        """
+        Initial the Exception Class with Given Arguments.
+        """
+        self.args_list = list(args)
+        self.args_str = str(args)
+        super().__init__(*args)
+
+__all__.append('GeometryError')
 
 def sum(a: any, b: any, return_int: bool = False, return_string: bool = False):
     """
@@ -549,3 +564,109 @@ def exp2(base: any, return_int: bool = False, return_string: bool = False):
     if return_string:
         _result = str(_result)
     return _result
+
+__all__.append('exp2')
+
+class GeometricProperties:
+    """
+    Class to Work with Geometric Properties.
+    """
+    @staticmethod
+    def rectangle(a: any, b: any, return_area: bool = False, return_circumference: bool = False, return_both: bool = False, return_int: bool = False, return_string: bool = False):
+        """
+        Calculate the Area or the Circumference of a Rectangle.
+        Attention
+        - If you use return_both, the result will be a tuple.
+        - If you use return_area, the result will be the area.
+        - If you use return_circumference, the result will be the circumference.
+        - If you use return_area and return_circumference, the result will be an Error.
+        - You can select only one, but you must set one.
+        """
+        from .highpymath import rectangle_area as _ra
+        from .highpymath import rectangle_circumference as _rc
+        if not return_area and not return_circumference and not return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_circumference:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_circumference and return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        return_flaot = True
+        if return_int:
+            return_float = False
+        if not isinstance(a, (int, float)):
+            raise MathValueError("a must be a number")
+        if not isinstance(b, (int, float)):
+            raise MathValueError("b must be a number")
+        if isinstance(a, int):
+            a = float(a)
+        if isinstance(b, int):
+            b = float(b)
+        _area = _ra(a=a, b=b)
+        _circumference = _rc(a=a, b=b)
+        if return_int:
+            _area = int(_area)
+            _circumference = int(_circumference)
+        elif return_float:
+            _area = float(_area)
+            _circumference = float(_circumference)
+        if return_string:
+            _area = str(_area)
+            _circumference = str(_circumference)
+        if return_both:
+            return _area, _circumference
+        elif return_area:
+            return _area
+        elif return_circumference:
+            return _circumference
+        
+    @staticmethod
+    def quadratic(a: any, return_area: bool = False, return_circumference: bool = False, return_both: bool = False, return_int: bool = False, return_string: bool = False):
+        """
+        Calculate the Area or the Circumference of a Quadratic.
+        Attention
+        - If you use return_both, the result will be a tuple.
+        - If you use return_area, the result will be the area.
+        - If you use return_circumference, the result will be the circumference.
+        - If you use return_area and return_circumference, the result will be an Error.
+        - You can select only one, but you must set one.
+        """
+        from .highpymath import quadratic_area as _qa
+        from .highpymath import quadratic_circumference as _qc
+        if not return_area and not return_circumference and not return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_circumference:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_area and return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        if return_circumference and return_both:
+            raise MathValueError("You need to specify one of the 3 arguments")
+        return_float = True
+        if return_int:
+            return_float = False
+        if not isinstance(a, (int, float)):
+            raise MathValueError("a must be a number")
+        if isinstance(a, int):
+            a = float(a)
+        _area = _qa(a=a)
+        _circumference = _qc(a=a)
+        if return_int:
+            _area = int(_area)
+            _circumference = int(_circumference)
+        elif return_float:
+            _area = float(_area)
+            _circumference = float(_circumference)
+        if return_string:
+            _area = str(_area)
+            _circumference = str(_circumference)
+        if return_both:
+            return _area, _circumference
+        elif return_area:
+            return _area
+        elif return_circumference:
+            return _circumference
+
+GeometricProperties = GeometricProperties()
+
+__all__.append('GeometricProperties')

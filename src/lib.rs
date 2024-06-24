@@ -3,6 +3,7 @@ use pyo3::exceptions::PyException;
 use pyo3::create_exception;
 
 create_exception!(highpymath, MathValueError, PyException);
+create_exception!(highpymath, GeometryError, MathValueError);
 
 #[cfg(target_pointer_width = "32")]
 type PyFloat = f32;
@@ -238,8 +239,25 @@ fn quadratic_pq(p: PyFloat, q: PyFloat) -> PyResult<(PyFloat, PyFloat)> {
     }
 }
 
-// ... bestehender Code ...
+#[pyfunction]
+fn rectangle_area(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
+    Ok(a * b)
+}
 
+#[pyfunction]
+fn rectangle_circumference(a: PyFloat, b: PyFloat) -> PyResult<PyFloat> {
+    Ok(2.0 * (a + b))
+}
+
+#[pyfunction]
+fn quadratic_area(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(a * a)
+}
+
+#[pyfunction]
+fn quadratic_circumference(a: PyFloat) -> PyResult<PyFloat> {
+    Ok(4.0 * a)
+}
 /// A Python module implemented in Rust.
 #[pymodule]
 fn highpymath(m: &PyModule) -> PyResult<()> {
@@ -267,6 +285,11 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(calc_pi, m)?)?;
     m.add_function(wrap_pyfunction!(quadratic_base, m)?)?;
     m.add_function(wrap_pyfunction!(quadratic_pq, m)?)?;
+    m.add_function(wrap_pyfunction!(rectangle_area, m)?)?;
+    m.add_function(wrap_pyfunction!(rectangle_circumference, m)?)?;
+    m.add_function(wrap_pyfunction!(quadratic_area, m)?)?;
+    m.add_function(wrap_pyfunction!(quadratic_circumference, m)?)?;
     m.add("MathValueError", m.py().get_type::<MathValueError>())?;
+    m.add("GeometryError", m.py().get_type::<GeometryError>())?;
     Ok(())
 }
