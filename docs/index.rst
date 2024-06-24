@@ -10,6 +10,8 @@ Welcome to highpymath's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   usage/install
+
 
 
 Indices and tables
