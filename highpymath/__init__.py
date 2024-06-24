@@ -567,7 +567,7 @@ def exp2(base: any, return_int: bool = False, return_string: bool = False):
 
 __all__.append('exp2')
 
-class GeometricProperties:
+class GeometricProperties2D:
     """
     Class to Work with Geometric Properties.
     """
@@ -667,6 +667,6 @@ class GeometricProperties:
         elif return_circumference:
             return _circumference
 
-GeometricProperties = GeometricProperties()
+GeometricProperties2D = GeometricProperties2D()
 
-__all__.append('GeometricProperties')
+__all__.append('GeometricProperties2D')
