@@ -2,8 +2,8 @@ use pyo3::prelude::*;
 use pyo3::exceptions::PyException;
 use pyo3::create_exception;
 
-create_exception!(highpymath, MathBaseError, PyException);
-create_exception!(highpymath, MathValueError, MathBaseError);
+create_exception!(highpymath, MathTypeError, PyException);
+create_exception!(highpymath, MathValueError, PyException);
 create_exception!(highpymath, GeometryError, MathValueError);
 
 #[cfg(target_pointer_width = "32")]
@@ -313,8 +313,8 @@ fn highpymath(m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(quadratic_circumference, m)?)?;
     m.add_function(wrap_pyfunction!(circle_area, m)?)?;
     m.add_function(wrap_pyfunction!(circle_circumference, m)?)?;
-    m.add("MathValueError", m.py().get_type::<MathValueError>())?;
-    m.add("MathBaseError", m.py().get_type::<MathBaseError>())?;
+    m.add("MathTypeError", m.py().get_type::<MathTypeError>())?;
+    m.add("MathValueError", m.py().get_type::<MathValueError>())?;  
     m.add("GeometryError", m.py().get_type::<GeometryError>())?;
     Ok(())
 }

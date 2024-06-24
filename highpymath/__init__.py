@@ -1,16 +1,12 @@
 from .highpymath import MathValueError as _mve
 from .highpymath import GeometryError as _ge
-from .highpymath import MathBaseError as _mbe
-from .exceptions import MathTypeError
-from .fast import fast_div as fdiv
-from .fast import fast_mul as fmul
-from .fast import fast_exp as fexp
+from .highpymath import MathTypeError as _mte
 
-__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e', 'MathTypeError', 'fdiv', 'fmul', 'fexp']
+__all__ = ['sum', 'sub', 'mul', 'div', 'MathValueError', 'exp', 'sqrt', 'log', 'reciprocal', 'factorial', 'calc_pi', 'calc_e', 'MathTypeError']
 
-class MathBaseError(_mbe):
+class MathTypeError(_mte):
     """
-    Exception Class for Math Base Errors.
+    Exception Class for Math Type Errors.
     """
     def __init__(self, *args: object):
         """
@@ -19,8 +15,6 @@ class MathBaseError(_mbe):
         self.args_list = list(args)
         self.args_str = str(args)
         super().__init__(*args)
-
-__all__.append('MathBaseError')
 
 class MathValueError(_mve):
     """
